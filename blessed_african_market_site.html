@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0f0e0d;
+  --cream:#faf7f2;
+  --red:#b5200d;
+  --gold:#c8920a;
+  --green:#1a4d2e;
+  --sand:#ede8df;
+  --muted:#6b6560;
+  --white:#fff;
+}
+body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);font-size:15px;line-height:1.6}
+a{text-decoration:none;color:inherit;cursor:pointer}
+img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* NAV */
+nav{background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:#fff;letter-spacing:-0.01em}
+.logo em{color:var(--gold);font-style:normal}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-links a.active{border-bottom:1.5px solid var(--gold)}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:88vh;background:var(--ink)}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem 4rem 5rem}
+.eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.hero-left h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,4.5vw,4.5rem);font-weight:900;color:#fff;line-height:1.05;margin-bottom:1.25rem}
+.hero-left h1 em{color:var(--gold);font-style:italic}
+.hero-sub{color:rgba(255,255,255,0.55);font-size:1rem;max-width:360px;margin-bottom:2.25rem;line-height:1.7}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-red{background:var(--red);color:#fff;padding:0.75rem 1.6rem;font-size:0.82rem;font-weight:600;letter-spacing:0.04em;border-radius:3px;transition:background 0.2s}
+.btn-red:hover{background:#991a0b}
+.btn-outline-w{border:1.5px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.8);padding:0.75rem 1.6rem;font-size:0.82rem;font-weight:500;letter-spacing:0.04em;border-radius:3px;transition:all 0.2s}
+.btn-outline-w:hover{border-color:rgba(255,255,255,0.65);color:#fff}
+
+.hero-right{position:relative;overflow:hidden}
+.hero-right img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.85}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,var(--ink) 0%,transparent 40%)}
+.hero-stat{position:absolute;bottom:2.5rem;right:2.5rem;background:var(--gold);padding:1.25rem 1.5rem;border-radius:3px}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--ink);line-height:1}
+.stat-label{font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(15,14,13,0.7);margin-top:0.25rem}
+
+/* TICKER */
+.ticker-bar{background:var(--red);overflow:hidden;padding:0.7rem 0}
+.ticker-track{display:flex;width:max-content;animation:scroll 28s linear infinite;gap:0}
+.ticker-track span{font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.9);white-space:nowrap;padding:0 1.5rem}
+.ticker-track .sep{opacity:0.4}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* SECTION */
+section{padding:6rem 0}
+.container{max-width:1140px;margin:0 auto;padding:0 2.5rem}
+.section-label{font-size:0.7rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,2.9rem);font-weight:700;line-height:1.1;margin-bottom:3rem}
+
+/* CATEGORIES */
+.cats{background:var(--cream)}
+.cat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.cat-card{border-radius:4px;overflow:hidden;cursor:pointer;position:relative}
+.cat-card:hover .cat-thumb img{transform:scale(1.05)}
+.cat-thumb{aspect-ratio:3/4;overflow:hidden}
+.cat-thumb img{transition:transform 0.45s ease}
+.cat-label{padding:0.9rem 0 0}
+.cat-label h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.15rem}
+.cat-label p{font-size:0.78rem;color:var(--muted)}
+
+/* BANNER */
+.banner{background:var(--green);padding:2.25rem 0}
+.banner-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.banner-inner p{color:rgba(255,255,255,0.85);font-size:0.9rem}
+.btn-gold{background:var(--gold);color:var(--ink);padding:0.7rem 1.5rem;font-size:0.8rem;font-weight:700;letter-spacing:0.04em;border-radius:3px;transition:background 0.2s}
+.btn-gold:hover{background:#b07d07}
+
+/* ABOUT PREVIEW */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-imgs{position:relative;height:520px}
+.img-a{position:absolute;top:0;left:0;width:72%;height:72%;border-radius:4px;overflow:hidden}
+.img-b{position:absolute;bottom:0;right:0;width:54%;height:52%;border-radius:4px;overflow:hidden;border:5px solid var(--cream)}
+.about-copy h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,2.5vw,2.6rem);font-weight:700;margin-bottom:1.25rem;line-height:1.15}
+.about-copy h2 em{font-style:italic;color:var(--red)}
+.about-copy p{color:var(--muted);font-size:0.95rem;line-height:1.75;margin-bottom:1rem}
+.btn-dark{display:inline-block;border:1.5px solid var(--ink);color:var(--ink);padding:0.7rem 1.5rem;font-size:0.8rem;font-weight:600;letter-spacing:0.04em;border-radius:3px;margin-top:0.75rem;transition:all 0.2s}
+.btn-dark:hover{background:var(--ink);color:#fff}
+
+/* FOOTER */
+footer{background:var(--ink);padding:3.5rem 0 0}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:0.85rem}
+.footer-logo em{color:var(--gold);font-style:normal}
+.footer-grid p{font-size:0.83rem;color:rgba(255,255,255,0.4);line-height:1.7}
+.footer-col h4{font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.footer-col a{display:block;font-size:0.83rem;color:rgba(255,255,255,0.45);margin-bottom:0.6rem;transition:color 0.2s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{padding:1.2rem 2.5rem;text-align:center}
+.footer-bottom p{font-size:0.75rem;color:rgba(255,255,255,0.25)}
+.footer-bottom strong{color:rgba(255,255,255,0.4)}
+
+/* PAGE HERO */
+.page-hero{background:var(--ink);padding:5rem 0 4rem}
+.page-hero .eyebrow{color:var(--gold)}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:900;color:#fff;line-height:1.08}
+.page-hero h1 em{color:var(--gold);font-style:italic}
+
+/* ABOUT PAGE */
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.story-img{aspect-ratio:4/5;border-radius:4px;overflow:hidden}
+.story-text h2{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;margin-bottom:1.25rem}
+.story-text p{color:var(--muted);font-size:0.95rem;line-height:1.8;margin-bottom:0.9rem}
+.values-section{background:var(--ink)}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin-top:3rem}
+.val-item{border-top:2px solid rgba(255,255,255,0.1);padding-top:1.75rem}
+.val-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--gold);margin-bottom:0.75rem;line-height:1}
+.val-item h3{font-size:1rem;font-weight:600;color:#fff;margin-bottom:0.6rem}
+.val-item p{font-size:0.85rem;color:rgba(255,255,255,0.45);line-height:1.7}
+.values-section .section-label{color:var(--gold)}
+.values-section .section-title{color:#fff}
+
+/* SHOP PAGE */
+.filter-row{display:flex;gap:0.5rem;margin-bottom:2.75rem;flex-wrap:wrap}
+.filter-btn{padding:0.5rem 1.15rem;border:1.5px solid #d5d0c8;background:none;border-radius:100px;font-family:'Outfit',sans-serif;font-size:0.78rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s}
+.filter-btn:hover{border-color:var(--ink);color:var(--ink)}
+.filter-btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.75rem}
+.p-card{cursor:pointer}
+.p-card.hide{display:none}
+.p-thumb{aspect-ratio:1/1;border-radius:4px;overflow:hidden;background:#e8e4dc;margin-bottom:0.8rem}
+.p-thumb img{transition:transform 0.4s ease}
+.p-card:hover .p-thumb img{transform:scale(1.06)}
+.p-tag{font-size:0.67rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:0.3rem}
+.p-name{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;margin-bottom:0.2rem}
+.p-desc{font-size:0.78rem;color:var(--muted)}
+.shop-note{margin-top:3rem;text-align:center;font-size:0.85rem;color:var(--muted);font-style:italic}
+
+/* CONTACT PAGE */
+.contact-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;align-items:start}
+.info-block{margin-bottom:2.25rem}
+.info-label{font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem}
+.info-block p,.info-block a{font-size:0.95rem;line-height:1.65;color:var(--ink)}
+.info-block a.big{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--red)}
+.map-wrap{height:480px;border-radius:4px;overflow:hidden;border:1px solid #ddd;background:#e8e4dc;display:flex;align-items:center;justify-content:center;position:relative}
+.map-placeholder{text-align:center;color:var(--muted)}
+.map-placeholder div{font-size:2.5rem;margin-bottom:0.5rem}
+.map-placeholder p{font-size:0.85rem}
+.map-address{position:absolute;bottom:1.25rem;left:1.25rem;background:var(--ink);color:#fff;padding:0.75rem 1rem;border-radius:3px;font-size:0.8rem;line-height:1.5}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Blessed<em>.</em></div>
+  <ul class="nav-links">
+    <li><a href="#" class="active" onclick="show('home',this)">Home</a></li>
+    <li><a href="#" onclick="show('about',this)">About</a></li>
+    <li><a href="#" onclick="show('shop',this)">Shop</a></li>
+    <li><a href="#" onclick="show('contact',this)">Visit Us</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="hero">
+    <div class="hero-left">
+      <p class="eyebrow">Norcross, Georgia · Est. 2013</p>
+      <h1>The taste of<br><em>home,</em><br>right here.</h1>
+      <p class="hero-sub">Authentic African groceries, spices, and specialty foods — serving Atlanta for over a decade.</p>
+      <div class="hero-btns">
+        <a class="btn-red" onclick="show('shop',null)">Browse Products</a>
+        <a class="btn-outline-w" onclick="show('contact',null)">Get Directions</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=900&q=85" alt="Market produce"/>
+      <div class="hero-overlay"></div>
+      <div class="hero-stat">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Years serving<br>Atlanta</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <span>Fresh Produce</span><span class="sep">·</span>
+      <span>West African Spices</span><span class="sep">·</span>
+      <span>Dried Fish & Meats</span><span class="sep">·</span>
+      <span>Palm Oil & Seasonings</span><span class="sep">·</span>
+      <span>Plantains & Yams</span><span class="sep">·</span>
+      <span>Imported Beverages</span><span class="sep">·</span>
+      <span>Hair & Beauty</span><span class="sep">·</span>
+      <span>Fresh Produce</span><span class="sep">·</span>
+      <span>West African Spices</span><span class="sep">·</span>
+      <span>Dried Fish & Meats</span><span class="sep">·</span>
+      <span>Palm Oil & Seasonings</span><span class="sep">·</span>
+      <span>Plantains & Yams</span><span class="sep">·</span>
+      <span>Imported Beverages</span><span class="sep">·</span>
+      <span>Hair & Beauty</span><span class="sep">·</span>
+    </div>
+  </div>
+
+  <section class="cats">
+    <div class="container">
+      <p class="section-label">What we carry</p>
+      <div class="section-title" style="font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,2.9rem);font-weight:700;line-height:1.1;margin-bottom:3rem">Everything you need,<br>all in one place.</div>
+      <div class="cat-row">
+        <div class="cat-card" onclick="show('shop',null)">
+          <div class="cat-thumb"><img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=500&q=80" alt="Produce"/></div>
+          <div class="cat-label"><h3>Fresh Produce</h3><p>Plantains, yams, cocoyam & more</p></div>
+        </div>
+        <div class="cat-card" onclick="show('shop',null)">
+          <div class="cat-thumb"><img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&q=80" alt="Spices"/></div>
+          <div class="cat-label"><h3>Spices & Seasonings</h3><p>Crayfish, ogiri, dawadawa & blends</p></div>
+        </div>
+        <div class="cat-card" onclick="show('shop',null)">
+          <div class="cat-thumb"><img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&q=80" alt="Pantry"/></div>
+          <div class="cat-label"><h3>Pantry Staples</h3><p>Palm oil, egusi, stockfish & grains</p></div>
+        </div>
+        <div class="cat-card" onclick="show('shop',null)">
+          <div class="cat-thumb"><img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=500&q=80" alt="Beauty"/></div>
+          <div class="cat-label"><h3>Hair & Beauty</h3><p>Black soap, shea butter & more</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="banner">
+    <div class="container banner-inner">
+      <p>Open daily · 9:00 AM – 9:00 PM · 7040 Jimmy Carter Blvd, Suite 2, Norcross</p>
+      <a class="btn-gold" onclick="show('contact',null)">Plan Your Visit</a>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-imgs">
+          <div class="img-a"><img src="https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=700&q=80" alt="Market"/></div>
+          <div class="img-b"><img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80" alt="Peppers"/></div>
+        </div>
+        <div class="about-copy">
+          <p class="eyebrow" style="color:var(--muted)">Our Story</p>
+          <h2>More than a grocery store.<br><em>A community.</em></h2>
+          <p>Blessed African Market has been a cornerstone of Norcross's African community since 2013. We're not just a place to shop — we're where people connect, find the ingredients that remind them of home, and feel seen.</p>
+          <p>Whether you grew up in Lagos, Accra, Dakar, or Kinshasa — you'll find something here that speaks to you.</p>
+          <a class="btn-dark" onclick="show('about',null)">Our Full Story →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Blessed<em>.</em></div>
+          <p>7040 Jimmy Carter Blvd, Suite 2<br>Norcross, GA 30092<br><br>(678) 502-7466</p>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <a onclick="show('home',null)">Home</a>
+          <a onclick="show('about',null)">About</a>
+          <a onclick="show('shop',null)">Shop</a>
+          <a onclick="show('contact',null)">Visit Us</a>
+        </div>
+        <div class="footer-col">
+          <h4>Hours</h4>
+          <p style="color:rgba(255,255,255,0.45)">Monday – Sunday<br>9:00 AM – 9:00 PM</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Blessed African Market · Site by <strong>Draux</strong></p>
+    </div>
+  </footer>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Who we are</p>
+      <h1>Built on community.<br>Rooted in <em>culture.</em></h1>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-img"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=85" alt="Market interior"/></div>
+        <div class="story-text">
+          <p class="section-label">The story</p>
+          <h2>A place that feels like home.</h2>
+          <p>Blessed African Market opened its doors in Norcross, Georgia in 2013 with a simple mission — make it easy for African families in the Atlanta area to find the foods and ingredients they grew up with.</p>
+          <p>Over a decade later, we've become more than just a grocery store. We're a gathering place. A spot where you run into your neighbor, catch up, and leave with everything you need for a real home-cooked meal.</p>
+          <p>We source authentic products from across West Africa and the diaspora — from everyday staples like palm oil and stockfish, to harder-to-find items you won't see at a typical supermarket.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="values-section">
+    <div class="container">
+      <p class="section-label">What drives us</p>
+      <div style="font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,2.9rem);font-weight:700;color:#fff;line-height:1.1">Our values</div>
+      <div class="values-grid">
+        <div class="val-item">
+          <div class="val-num">01</div>
+          <h3>Authenticity</h3>
+          <p>We carry the real thing — the actual ingredients used in real African kitchens. Not substitutes.</p>
+        </div>
+        <div class="val-item">
+          <div class="val-num">02</div>
+          <h3>Community</h3>
+          <p>This store exists because of the people around it. We're proud to serve Atlanta's African diaspora.</p>
+        </div>
+        <div class="val-item">
+          <div class="val-num">03</div>
+          <h3>Accessibility</h3>
+          <p>Great products at fair prices, open every single day, so you can come when it works for you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="banner">
+    <div class="container banner-inner">
+      <p>Come see us — open daily 9 AM to 9 PM</p>
+      <a class="btn-gold" onclick="show('contact',null)">Get Directions</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Blessed<em>.</em></div>
+          <p>7040 Jimmy Carter Blvd, Suite 2<br>Norcross, GA 30092<br><br>(678) 502-7466</p>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <a onclick="show('home',null)">Home</a>
+          <a onclick="show('about',null)">About</a>
+          <a onclick="show('shop',null)">Shop</a>
+          <a onclick="show('contact',null)">Visit Us</a>
+        </div>
+        <div class="footer-col">
+          <h4>Hours</h4>
+          <p style="color:rgba(255,255,255,0.45)">Monday – Sunday<br>9:00 AM – 9:00 PM</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Blessed African Market · Site by <strong>Draux</strong></p>
+    </div>
+  </footer>
+</div>
+
+<!-- SHOP -->
+<div id="shop" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <p class="eyebrow">What we carry</p>
+      <h1>Stocked with the <em>real</em><br>thing. Always.</h1>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="filter-row">
+        <button class="filter-btn on" onclick="filter('all',this)">All</button>
+        <button class="filter-btn" onclick="filter('produce',this)">Produce</button>
+        <button class="filter-btn" onclick="filter('spices',this)">Spices</button>
+        <button class="filter-btn" onclick="filter('pantry',this)">Pantry</button>
+        <button class="filter-btn" onclick="filter('beauty',this)">Beauty</button>
+        <button class="filter-btn" onclick="filter('drinks',this)">Drinks</button>
+      </div>
+      <div class="products-grid">
+        <div class="p-card" data-c="produce"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?w=400&q=80" alt="Plantains"/></div><div class="p-tag">Produce</div><div class="p-name">Plantains</div><div class="p-desc">Yellow & green, sold by bunch</div></div>
+        <div class="p-card" data-c="produce"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1604977042946-1eecc30f269e?w=400&q=80" alt="Yams"/></div><div class="p-tag">Produce</div><div class="p-name">African Yams</div><div class="p-desc">Fresh whole yam, various sizes</div></div>
+        <div class="p-card" data-c="produce"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80" alt="Peppers"/></div><div class="p-tag">Produce</div><div class="p-name">Scotch Bonnet Peppers</div><div class="p-desc">Fresh & dried varieties</div></div>
+       <!-- <div class="p-card" data-c="spices"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=80" alt="Crayfish"/></div><div class="p-tag">Spices</div><div class="p-name">Ground Crayfish</div><div class="p-desc">Fine & coarse grind available</div></div>
+        <div class="p-card" data-c="spices"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400&q=80" alt="Cubes"/></div><div class="p-tag">Spices</div><div class="p-name">Seasoning Cubes</div><div class="p-desc">Maggi, Knorr & imported brands</div></div>
+        <div class="p-card" data-c="pantry"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&q=80" alt="Palm oil"/></div><div class="p-tag">Pantry</div><div class="p-name">Red Palm Oil</div><div class="p-desc">Unrefined, various jar sizes</div></div>
+        <div class="p-card" data-c="pantry"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80" alt="Stockfish"/></div><div class="p-tag">Pantry</div><div class="p-name">Stockfish</div><div class="p-desc">Dried & ready to cook</div></div>
+        <div class="p-card" data-c="pantry"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&q=80" alt="Rice"/></div><div class="p-tag">Pantry</div><div class="p-name">Long Grain Parboiled Rice</div><div class="p-desc">5lb, 10lb & 25lb bags</div></div>
+        <div class="p-card" data-c="beauty"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400&q=80" alt="Black soap"/></div><div class="p-tag">Beauty</div><div class="p-name">African Black Soap</div><div class="p-desc">Raw & bar varieties</div></div>
+        <div class="p-card" data-c="beauty"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&q=80" alt="Shea butter"/></div><div class="p-tag">Beauty</div><div class="p-name">Raw Shea Butter</div><div class="p-desc">Unrefined, 100% natural</div></div>
+        <div class="p-card" data-c="drinks"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&q=80" alt="Malt"/></div><div class="p-tag">Drinks</div><div class="p-name">Malt Beverages</div><div class="p-desc">Malta, Supermalt & more</div></div>
+        <div class="p-card" data-c="drinks"><div class="p-thumb"><img src="https://images.unsplash.com/photo-1568909344668-6f14a07b56a0?w=400&q=80" alt="Zobo"/></div><div class="p-tag">Drinks</div><div class="p-name">Dried Hibiscus (Zobo)</div><div class="p-desc">For zobo drinks & teas</div></div>
+      -->
+      </div>
+      <p class="shop-note">Just a sample of what we carry. Come in and explore — we're always restocking new items.</p>
+    </div>
+  </section>
+
+  <div class="banner">
+    <div class="container banner-inner">
+      <p>Can't find what you need? Call us at (678) 502-7466</p>
+      <a class="btn-gold" onclick="show('contact',null)">Visit the Store</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Blessed<em>.</em></div>
+          <p>7040 Jimmy Carter Blvd, Suite 2<br>Norcross, GA 30092<br><br>(678) 502-7466</p>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <a onclick="show('home',null)">Home</a>
+          <a onclick="show('about',null)">About</a>
+          <a onclick="show('shop',null)">Shop</a>
+          <a onclick="show('contact',null)">Visit Us</a>
+        </div>
+        <div class="footer-col">
+          <h4>Hours</h4>
+          <p style="color:rgba(255,255,255,0.45)">Monday – Sunday<br>9:00 AM – 9:00 PM</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Blessed African Market · Site by <strong>Draux</strong></p>
+    </div>
+  </footer>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Find us</p>
+      <h1>We're open every day.<br>Come <em>see us.</em></h1>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="contact-layout">
+        <div>
+          <div class="info-block">
+            <p class="info-label">Address</p>
+            <p>7040 Jimmy Carter Blvd, Suite 2<br>Norcross, GA 30092</p>
+            <a class="btn-dark" href="https://maps.google.com/?q=7040+Jimmy+Carter+Blvd+Norcross+GA" target="_blank" style="margin-top:1rem;display:inline-block">Open in Google Maps →</a>
+          </div>
+          <div class="info-block">
+            <p class="info-label">Phone</p>
+            <a href="tel:6785027466" class="big">(678) 502-7466</a>
+          </div>
+          <div class="info-block">
+            <p class="info-label">Hours</p>
+            <p>Monday – Sunday<br>9:00 AM – 9:00 PM</p>
+          </div>
+          <div class="info-block">
+            <p class="info-label">Parking & Access</p>
+            <p>Free lot parking available.<br>Wheelchair accessible entrance.</p>
+          </div>
+          <div class="info-block">
+            <p class="info-label">Payment</p>
+            <p>Cash & all major credit/debit cards accepted via Square.</p>
+          </div>
+        </div>
+        <div class="map-wrap">
+          <div class="map-placeholder">
+            <div>📍</div>
+            <p style="font-weight:600;margin-bottom:0.25rem">Blessed African Market</p>
+            <p>7040 Jimmy Carter Blvd, Suite 2<br>Norcross, GA 30092</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Blessed<em>.</em></div>
+          <p>7040 Jimmy Carter Blvd, Suite 2<br>Norcross, GA 30092<br><br>(678) 502-7466</p>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <a onclick="show('home',null)">Home</a>
+          <a onclick="show('about',null)">About</a>
+          <a onclick="show('shop',null)">Shop</a>
+          <a onclick="show('contact',null)">Visit Us</a>
+        </div>
+        <div class="footer-col">
+          <h4>Hours</h4>
+          <p style="color:rgba(255,255,255,0.45)">Monday – Sunday<br>9:00 AM – 9:00 PM</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Blessed African Market · Site by <strong>Draux</strong></p>
+    </div>
+  </footer>
+</div>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const map = {home:0,about:1,shop:2,contact:3};
+  document.querySelectorAll('.nav-links a')[map[id]].classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function filter(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.p-card').forEach(c => {
+    c.classList.toggle('hide', cat !== 'all' && c.dataset.c !== cat);
+  });
+}
+</script>
+</body>
+</html>
